@@ -11,4 +11,5 @@ func QuestionRoutes(v1 *gin.RouterGroup, httpRouter Router) {
 	httpRouter.GET(questionR,"/:questionID", questionController.GetQuestion)
 	httpRouter.POST(questionR,"", questionController.CreateQuestion)
 	httpRouter.PUT(questionR,"", questionController.UpdateAnswer)
+	httpRouter.PUT(questionR,"/upvote", questionController.UpvoteQuestion)
 }

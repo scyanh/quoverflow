@@ -18,12 +18,23 @@ func Update(question model.Question) (*model.Question, error) {
 	}
 	return &question, nil
 }
+func Upvote(question model.Question) (*model.Question, error) {
+	if err := db.GetDb().Save(&question).Error; err != nil {
+		return nil, err
+	}
+	return &question, nil
+}
 
-func Find() []model.Question {
+func Find(page int) []model.Question {
 	var questions []model.Question
+
+	pageSize := 10
+	offset := (page - 1) * pageSize
 
 	db.GetDb().
 		Order("created_at DESC").
+		Offset(offset).
+		Limit(pageSize).
 		Find(&questions)
 
 	return questions

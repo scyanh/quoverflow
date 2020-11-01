@@ -5,8 +5,8 @@ import (
 	"github.com/scyanh/quoverflow/app/domain/repositories/questionRepository"
 )
 
-func GetQuestions() []model.Question {
-	questions := questionRepository.Find()
+func GetQuestions(page int) []model.Question {
+	questions := questionRepository.Find(page)
 	return questions
 }
 
@@ -39,6 +39,20 @@ func UpdateAnswer(validator model.AnswerValidator) error {
 	question.Answer = validator.Answer
 
 	if _, err := questionRepository.Update(*question); err != nil {
+		return err
+	}
+	return nil
+}
+func UpvoteQuestion(validator model.QuestionUpvoteValidator) error {
+	question, err := questionRepository.FindByID(validator.ID)
+	if err != nil {
+		return err
+	}
+
+	question.ID = validator.ID
+	question.Upvotes++
+
+	if _, err := questionRepository.Upvote(*question); err != nil {
 		return err
 	}
 	return nil

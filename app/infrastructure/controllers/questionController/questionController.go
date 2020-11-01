@@ -33,7 +33,11 @@ func GetQuestion(c *gin.Context) {
 // @Router /v1/questions [get]
 func GetQuestions(c *gin.Context) {
 	responseContextData := model.ResponseContext{Ctx: c}
-	questions := questionService.GetQuestions()
+	page, _ := strconv.Atoi(c.Query("page"))
+	if page == 0 {
+		page = 1
+	}
+	questions := questionService.GetQuestions(page)
 
 	c.JSON(http.StatusOK, responseContextData.ResponseData(model.StatusSuccess, "", questions))
 }
@@ -69,6 +73,24 @@ func UpdateAnswer(c *gin.Context) {
 	}
 
 	if err := questionService.UpdateAnswer(validator); err != nil {
+		c.JSON(http.StatusBadRequest, responseContextData.ResponseData(model.StatusFail, err.Error(), ""))
+		return
+	}
+	c.JSON(http.StatusOK, responseContextData.ResponseData(model.StatusSuccess, "", ""))
+}
+
+func UpvoteQuestion(c *gin.Context) {
+	responseContextData := model.ResponseContext{Ctx: c}
+	var validator model.QuestionUpvoteValidator
+
+	err := c.ShouldBindJSON(&validator)
+	if err != nil {
+		fmt.Println("err=", err)
+		c.JSON(http.StatusBadRequest, responseContextData.ResponseData(model.StatusFail, err.Error(), ""))
+		return
+	}
+
+	if err := questionService.UpvoteQuestion(validator); err != nil {
 		c.JSON(http.StatusBadRequest, responseContextData.ResponseData(model.StatusFail, err.Error(), ""))
 		return
 	}

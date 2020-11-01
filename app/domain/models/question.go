@@ -15,7 +15,7 @@ type Question struct {
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
 	Text      string    `json:"text" gorm:"default:''"`
 	Answer    string    `json:"answer"`
-	Upvotes   int       `json:"upvotes"`
+	Upvotes   int       `json:"upvotes" gorm:"default:0"`
 }
 
 // Validators
