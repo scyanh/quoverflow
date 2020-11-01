@@ -23,6 +23,7 @@ func Find() []model.Question {
 	var questions []model.Question
 
 	db.GetDb().
+		Order("created_at DESC").
 		Find(&questions)
 
 	return questions

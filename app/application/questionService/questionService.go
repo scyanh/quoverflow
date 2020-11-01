@@ -31,7 +31,7 @@ func CreateQuestion(validator model.QuestionValidator) error {
 }
 
 func UpdateAnswer(validator model.AnswerValidator) error {
-	question, err := questionRepository.FindByID(validator.QuestionID)
+	question, err := questionRepository.FindByID(validator.ID)
 	if err != nil {
 		return err
 	}

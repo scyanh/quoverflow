@@ -1,0 +1,11 @@
+branch-defaults:
+  dev:
+    environment: qooverflow-dev
+  master:
+    environment: qooverflow
+global:
+  application_name: Quoverflow
+  default_ec2_keyname: aws-qooverflow
+  default_platform: Go 1 running on 64bit Amazon Linux 2
+  default_region: us-east-1
+  sc: git
