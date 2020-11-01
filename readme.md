@@ -12,10 +12,6 @@ This project uses a PostgreSQL database and needs to configure these Environment
 - DATABASE_PORT
 - DATABASE_NAME
 
-### Notes
-
-The go.mod file was created with "go mod init" command
-
 ## Architecture
 
 This project is an approach to "Clean Architecture" with the necessary layers to build complex enterprise applications.
@@ -24,4 +20,9 @@ This project is an approach to "Clean Architecture" with the necessary layers to
 - Domain: Models & Repositories
 - Application: Services
 - Infrastructure: Configurations, Controllers, Middleware & Routes
+
+### Notes
+
+- The go.mod file was created with "go mod init" command
+- Swagger documentation was created with "swagger generate spec -o ./swagger.yalm --scan-models" command
 
