@@ -94,5 +94,6 @@ func UpvoteQuestion(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, responseContextData.ResponseData(model.StatusFail, err.Error(), ""))
 		return
 	}
+
 	c.JSON(http.StatusOK, responseContextData.ResponseData(model.StatusSuccess, "", ""))
 }

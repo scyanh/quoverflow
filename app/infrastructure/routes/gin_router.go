@@ -6,6 +6,7 @@ import (
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"github.com/scyanh/quoverflow/app/application/questionService"
+	"github.com/scyanh/quoverflow/app/infrastructure/melodySocket"
 	"github.com/scyanh/quoverflow/app/infrastructure/middlewares"
 	"github.com/scyanh/quoverflow/docs"
 	swaggerFiles "github.com/swaggo/files"
@@ -94,12 +95,12 @@ func (*ginRouter) SETUP_ROUTES() {
 	ginEngine.Use(ginzap.Ginzap(logger, time.RFC3339, true))
 	ginEngine.Use(ginzap.RecoveryWithZap(logger, true))
 
-	m := melody.New()
+
 	ginEngine.GET("/ws", func(c *gin.Context) {
-		m.HandleRequest(c.Writer, c.Request)
+		melodySocket.GetMelody().HandleRequest(c.Writer, c.Request)
 	})
 
-	m.HandleMessage(func(s *melody.Session, msg []byte) {
+	melodySocket.GetMelody().HandleMessage(func(s *melody.Session, msg []byte) {
 		fmt.Println("incomming msg=",msg)
 
 		var ids []int
@@ -117,7 +118,7 @@ func (*ginRouter) SETUP_ROUTES() {
 			fmt.Println("err=",err)
 			return
 		}
-		m.Broadcast(b)
+		melodySocket.GetMelody().Broadcast(b)
 	})
 
 	v1 := ginEngine.Group("/v1")

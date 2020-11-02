@@ -40,6 +40,18 @@ func Find(page int) []model.Question {
 	return questions
 }
 
+// Deprecated
+func FindByIDs(ids []int) []model.Question {
+	var questions []model.Question
+
+	db.GetDb().
+		Order("created_at DESC").
+		Where("id IN(?)", ids).
+		Find(&questions)
+
+	return questions
+}
+
 func FindByID(questionID int64) (*model.Question, error) {
 	var question model.Question
 

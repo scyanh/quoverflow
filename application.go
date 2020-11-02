@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/scyanh/quoverflow/app/infrastructure/db"
+	"github.com/scyanh/quoverflow/app/infrastructure/melodySocket"
 	"github.com/scyanh/quoverflow/app/infrastructure/routes"
 	"go.uber.org/zap"
 	"os"
@@ -18,6 +19,9 @@ func main() {
 
 	db.Init()
 	defer db.CloseDb()
+
+	melodySocket.Init()
+	defer melodySocket.CloseMelody()
 
 	//Init Routes
 	httpRouter.INIT()
