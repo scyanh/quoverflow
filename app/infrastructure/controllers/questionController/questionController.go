@@ -58,7 +58,7 @@ func CreateQuestion(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, responseContextData.ResponseData(model.StatusSuccess, "", ""))
+	c.JSON(http.StatusOK, responseContextData.ResponseData(model.StatusSuccess, "Answer created successfully", ""))
 }
 
 func UpdateAnswer(c *gin.Context) {
@@ -76,7 +76,7 @@ func UpdateAnswer(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, responseContextData.ResponseData(model.StatusFail, err.Error(), ""))
 		return
 	}
-	c.JSON(http.StatusOK, responseContextData.ResponseData(model.StatusSuccess, "", ""))
+	c.JSON(http.StatusOK, responseContextData.ResponseData(model.StatusSuccess, "Answer updated successfully", ""))
 }
 
 func UpvoteQuestion(c *gin.Context) {
