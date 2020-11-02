@@ -1,14 +1,17 @@
 package router
 
 import (
+	"encoding/json"
 	"fmt"
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
+	"github.com/scyanh/quoverflow/app/application/questionService"
 	"github.com/scyanh/quoverflow/app/infrastructure/middlewares"
 	"github.com/scyanh/quoverflow/docs"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"go.uber.org/zap"
+	"gopkg.in/olahol/melody.v1"
 	"net/http"
 	"os"
 	"time"
@@ -90,6 +93,33 @@ func (*ginRouter) SETUP_ROUTES() {
 	logger, _ := zap.NewProduction()
 	ginEngine.Use(ginzap.Ginzap(logger, time.RFC3339, true))
 	ginEngine.Use(ginzap.RecoveryWithZap(logger, true))
+
+	m := melody.New()
+	ginEngine.GET("/ws", func(c *gin.Context) {
+		m.HandleRequest(c.Writer, c.Request)
+	})
+
+	m.HandleMessage(func(s *melody.Session, msg []byte) {
+		fmt.Println("incomming msg=",msg)
+
+		var ids []int
+		errorUnmarshal := json.Unmarshal([]byte(msg), &ids)
+		if errorUnmarshal != nil {
+			fmt.Println("errorUnmarshal=",errorUnmarshal)
+			return
+		}
+
+		fmt.Println("ids=",ids)
+
+		questions := questionService.GetQuestions(1)
+		b, err := json.Marshal(questions)
+		if err != nil {
+			fmt.Println("err=",err)
+			return
+		}
+		m.Broadcast(b)
+	})
+
 	v1 := ginEngine.Group("/v1")
 
 	v1.GET("/health", func(c *gin.Context) {

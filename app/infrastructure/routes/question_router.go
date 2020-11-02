@@ -8,8 +8,9 @@ import (
 func QuestionRoutes(v1 *gin.RouterGroup, httpRouter Router) {
 	questionR := v1.Group("questions")
 	httpRouter.GET(questionR,"", questionController.GetQuestions)
-	httpRouter.GET(questionR,"/:questionID", questionController.GetQuestion)
+	httpRouter.GET(questionR,"/id/:questionID", questionController.GetQuestion)
 	httpRouter.POST(questionR,"", questionController.CreateQuestion)
 	httpRouter.PUT(questionR,"", questionController.UpdateAnswer)
 	httpRouter.PUT(questionR,"/upvote", questionController.UpvoteQuestion)
+
 }
