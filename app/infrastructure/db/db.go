@@ -35,7 +35,7 @@ func Init() {
 	db, err = gorm.Open("postgres", dbinfo)
 	if err != nil {
 		zap.S().Error("Failed to connect to db")
-		panic(err)
+		//panic(err)
 	}
 	zap.S().Infow("Database connected")
 
