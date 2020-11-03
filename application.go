@@ -1,5 +1,5 @@
 package main
-
+/*
 import (
 	"github.com/scyanh/quoverflow/app/infrastructure/db"
 	"github.com/scyanh/quoverflow/app/infrastructure/melodySocket"
@@ -38,3 +38,4 @@ func main() {
 	httpRouter.SERVE(port)
 
 }
+*/
