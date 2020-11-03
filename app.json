@@ -1,0 +1,11 @@
+{
+  "name": "Quoverflow",
+  "description": "Quoverflow",
+  "keywords": [
+    "quoverflow",
+    "api",
+    "go"
+  ],
+  "website": "http://quoverflow.com",
+  "repository": "https://github.com/scyanh/quoverflow"
+}
