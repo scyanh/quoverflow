@@ -1,4 +1,14 @@
 definitions:
+  model.AnswerValidator:
+    properties:
+      answer:
+        type: string
+      id:
+        type: integer
+    required:
+    - answer
+    - id
+    type: object
   model.Question:
     properties:
       answer:
@@ -13,6 +23,29 @@ definitions:
         type: string
       upvotes:
         type: integer
+    type: object
+  model.QuestionUpvoteValidator:
+    properties:
+      id:
+        type: integer
+    required:
+    - id
+    type: object
+  model.QuestionValidator:
+    properties:
+      text:
+        type: string
+    required:
+    - text
+    type: object
+  questionController.GetQuestionSwagger:
+    properties:
+      data:
+        $ref: '#/definitions/model.Question'
+      message:
+        type: string
+      status:
+        type: string
     type: object
   questionController.GetQuestionsSwagger:
     properties:
@@ -32,7 +65,6 @@ paths:
     get:
       consumes:
       - application/json
-      description: get response questions
       produces:
       - application/json
       responses:
@@ -43,6 +75,78 @@ paths:
               $ref: '#/definitions/questionController.GetQuestionsSwagger'
             type: array
       summary: questions response
+      tags:
+      - question
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: QuestionValidator
+        in: body
+        name: QuestionValidator
+        required: true
+        schema:
+          $ref: '#/definitions/model.QuestionValidator'
+      produces:
+      - application/json
+      responses:
+        "200": {}
+      summary: Create question
+      tags:
+      - question
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: AnswerValidator
+        in: body
+        name: AnswerValidator
+        required: true
+        schema:
+          $ref: '#/definitions/model.AnswerValidator'
+      produces:
+      - application/json
+      responses:
+        "200": {}
+      summary: Update answer
+      tags:
+      - question
+  /v1/questions/id/{questionID}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: questionID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/questionController.GetQuestionSwagger'
+      summary: question response
+      tags:
+      - question
+  /v1/questions/upvote:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: QuestionUpvoteValidator
+        in: body
+        name: QuestionUpvoteValidator
+        required: true
+        schema:
+          $ref: '#/definitions/model.QuestionUpvoteValidator'
+      produces:
+      - application/json
+      responses:
+        "200": {}
+      summary: Update question
       tags:
       - question
 swagger: "2.0"

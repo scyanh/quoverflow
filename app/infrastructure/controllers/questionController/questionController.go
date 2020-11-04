@@ -9,23 +9,30 @@ import (
 	"strconv"
 )
 
+// Get question detail response godoc
+// @Summary question response
+// @Tags question
+// @Accept  json
+// @Produce  json
+// @Param questionID path int true "id"
+// @Success 200 {object} questionController.GetQuestionSwagger
+// @Router /v1/questions/id/{questionID} [get]
 func GetQuestion(c *gin.Context) {
 	responseContextData := model.ResponseContext{Ctx: c}
 	questionID, _ := strconv.ParseInt(c.Param("questionID"), 10, 64)
 
-	product, err := questionService.GetQuestion(questionID)
+	question, err := questionService.GetQuestion(questionID)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, responseContextData.ResponseData(model.StatusFail, err.Error(), ""))
 		return
 	}
 
-	c.JSON(http.StatusOK, responseContextData.ResponseData(model.StatusSuccess, "", product))
+	c.JSON(http.StatusOK, responseContextData.ResponseData(model.StatusSuccess, "", question))
 }
 
-// questions response godoc
+// Get questions response godoc
 // @Summary questions response
-// @Description get response questions
 // @Tags question
 // @Accept  json
 // @Produce  json
@@ -42,6 +49,14 @@ func GetQuestions(c *gin.Context) {
 	c.JSON(http.StatusOK, responseContextData.ResponseData(model.StatusSuccess, "", questions))
 }
 
+// Create question godoc
+// @Summary Create question
+// @Tags question
+// @Accept  json
+// @Produce  json
+// @Param QuestionValidator body model.QuestionValidator true "QuestionValidator"
+// @Success 200
+// @Router /v1/questions [post]
 func CreateQuestion(c *gin.Context) {
 	responseContextData := model.ResponseContext{Ctx: c}
 	var validator model.QuestionValidator
@@ -61,6 +76,14 @@ func CreateQuestion(c *gin.Context) {
 	c.JSON(http.StatusOK, responseContextData.ResponseData(model.StatusSuccess, "Question created successfully", ""))
 }
 
+// Update answer godoc
+// @Summary Update answer
+// @Tags question
+// @Accept  json
+// @Produce  json
+// @Param AnswerValidator body model.AnswerValidator true "AnswerValidator"
+// @Success 200
+// @Router /v1/questions [put]
 func UpdateAnswer(c *gin.Context) {
 	responseContextData := model.ResponseContext{Ctx: c}
 	var validator model.AnswerValidator
@@ -79,6 +102,14 @@ func UpdateAnswer(c *gin.Context) {
 	c.JSON(http.StatusOK, responseContextData.ResponseData(model.StatusSuccess, "Answer updated successfully", ""))
 }
 
+// Update question godoc
+// @Summary Update question
+// @Tags question
+// @Accept  json
+// @Produce  json
+// @Param QuestionUpvoteValidator body model.QuestionUpvoteValidator true "QuestionUpvoteValidator"
+// @Success 200
+// @Router /v1/questions/upvote [put]
 func UpvoteQuestion(c *gin.Context) {
 	responseContextData := model.ResponseContext{Ctx: c}
 	var validator model.QuestionUpvoteValidator

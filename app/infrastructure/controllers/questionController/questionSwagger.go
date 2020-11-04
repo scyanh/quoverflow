@@ -8,3 +8,7 @@ type GetQuestionsSwagger struct {
 	model.ServiceResponse
 	Data []model.Question `json:"data"`
 }
+type GetQuestionSwagger struct {
+	model.ServiceResponse
+	Data model.Question `json:"data"`
+}

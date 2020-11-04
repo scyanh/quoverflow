@@ -26,7 +26,6 @@ var doc = `{
     "paths": {
         "/v1/questions": {
             "get": {
-                "description": "get response questions",
                 "consumes": [
                     "application/json"
                 ],
@@ -48,10 +47,136 @@ var doc = `{
                         }
                     }
                 }
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "question"
+                ],
+                "summary": "Update answer",
+                "parameters": [
+                    {
+                        "description": "AnswerValidator",
+                        "name": "AnswerValidator",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.AnswerValidator"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {}
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "question"
+                ],
+                "summary": "Create question",
+                "parameters": [
+                    {
+                        "description": "QuestionValidator",
+                        "name": "QuestionValidator",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.QuestionValidator"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {}
+                }
+            }
+        },
+        "/v1/questions/id/{questionID}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "question"
+                ],
+                "summary": "question response",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "questionID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/questionController.GetQuestionSwagger"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/questions/upvote": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "question"
+                ],
+                "summary": "Update question",
+                "parameters": [
+                    {
+                        "description": "QuestionUpvoteValidator",
+                        "name": "QuestionUpvoteValidator",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.QuestionUpvoteValidator"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {}
+                }
             }
         }
     },
     "definitions": {
+        "model.AnswerValidator": {
+            "type": "object",
+            "required": [
+                "answer",
+                "id"
+            ],
+            "properties": {
+                "answer": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
         "model.Question": {
             "type": "object",
             "properties": {
@@ -72,6 +197,42 @@ var doc = `{
                 },
                 "upvotes": {
                     "type": "integer"
+                }
+            }
+        },
+        "model.QuestionUpvoteValidator": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.QuestionValidator": {
+            "type": "object",
+            "required": [
+                "text"
+            ],
+            "properties": {
+                "text": {
+                    "type": "string"
+                }
+            }
+        },
+        "questionController.GetQuestionSwagger": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/model.Question"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
                 }
             }
         },
